@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="shortcut icon" type="image/png" href="/icon.png" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:400,500,600&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="style.css" />
+    <title>Bankist</title>
+  </head>
+  <body>
+    <!-- TOP NAVIGATION -->
+    <nav>
+      <p class="welcome">로그인 후 이용해주세요</p>
+      <img src="img/logo.png" alt="logo" class="logo">
+      <form class="login">
+        <input type="text" placeholder="user" class="login__id login__input">
+        <input type="text" placeholder="pin" class="login__pwd login__input">
+        <button class="login__submit">&rarr;</button>
+      </form>
+    </nav>
+
+    <main class="app">
+      <div class="balance">
+        <div class="balance__left">
+          <p class="left__label">
+            현재 자산
+          </p>
+          <p class="left__date">
+            27/08/2021, 00:29
+          </p>
+        </div>
+        <div class="balance__total">
+          ₩100000000
+        </div>
+      </div>
+
+      <div class="functions">
+        <div class="movements">
+          <div class="movement__row">
+            <div class="movement__type__deposit">입금 8</div>
+            <div class="movement__type__date">12/03/2020</div>
+            <div class="movement__type__value">₩20000</div>
+          </div>
+          <div class="movement__row">
+            <div class="movement__type__withdraw">출금 8</div>
+            <div class="movement__type__date">12/03/2020</div>
+            <div class="movement__type__value">₩20000</div>
+          </div>
+        </div>
+
+        <!-- transfer -->
+        <div class="operation operation--transfer">
+          <h2 class="transfer__title">송금하기</h2>
+          <form class="form transfer__form">
+            <input type="text" class="form__input form__input--to" />
+            <input type="number" class="form__input form__input--amount" />
+            <button class="form__btn form__btn--transfer">&rarr;</button>
+            <label class="form__label">상대방</label>
+            <label class="form__label">액수</label>
+          </form>
+        </div>
+
+        <!-- loan -->
+        <div class="operation operation--loan">
+          <h2>빌리기</h2>
+          <form class="form form--loan">
+            <input type="number" class="form__input form__input--loan-amount" />
+            <button class="form__btn form__btn--loan">&rarr;</button>
+            <label class="form__label form__label--loan">액수</label>
+          </form>
+        </div>
+
+        <!-- close -->
+        <div class="operation operation--close">
+          <h2 class="transfer__title">로그아웃</h2>
+          <form class="form transfer__form">
+            <input type="text" class="form__input form__input--user" />
+            <input type="number" class="form__input form__input--pin" />
+            <button class="form__btn form__btn--transfer">&rarr;</button>
+            <label class="form__label">user</label>
+            <label class="form__label">pin</label>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
