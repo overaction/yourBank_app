@@ -30,7 +30,7 @@ body {
 
 nav {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   padding: 0 2rem;
   margin: 0 auto;
@@ -41,16 +41,16 @@ nav {
   margin-left: 0.6rem;
   font-size: 1.5rem;
   font-weight: bold;
+  padding: 0 7rem;
 }
 
 .logo {
   height: 4.5rem;
-  margin-left: 6rem;
 }
 
 .login__input {
-  width: 12rem;
-  padding: 1rem 0.5rem;
+
+  padding: 1rem 0;
   border-radius: 2rem;
   margin-right: 0.3rem;
   border: none;
@@ -96,7 +96,7 @@ nav {
 .functions {
   display: grid;
   grid-template-columns: 4fr 3fr;
-  grid-template-rows: auto repeat(3,12rem) auto;
+  grid-template-rows: auto repeat(2,12rem) auto;
   gap: 2rem;
 }
 
@@ -232,4 +232,42 @@ h2 {
 
 .operation--close {
   background-image: linear-gradient(to top left, #e52a5a, #ff585f);
+}
+
+.summary {
+  display: flex;
+  justify-content: space-between;
+  width: 40rem;
+  text-transform: uppercase;
+}
+
+.summary p {
+  display: inline-block;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+  font-weight: bold;
+}
+
+.summary span {
+  font-size: 1.8rem;
+}
+
+.interest {
+  color: #76c233;
+}
+
+.out {
+  color: #e52a5a;
+}
+
+.sortBtn {
+  position: absolute;
+  left: 46rem;
+  bottom: 0.3rem;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #39b385;
+  background-color: #f3f3f3;
+  cursor: pointer;
 }
