@@ -96,8 +96,9 @@ nav {
 .functions {
   display: grid;
   grid-template-columns: 4fr 3fr;
-  grid-template-rows: auto repeat(2,12rem) auto;
+  grid-template-rows: repeat(2,12rem);
   gap: 2rem;
+  overflow: auto;
 }
 
 .movements {
@@ -107,6 +108,8 @@ nav {
   overflow: scroll;
   align-items: center;
   min-width: 50rem;
+  min-height: 4rem;
+  max-height: 42.5rem;
 }
 
 .movement__row {
