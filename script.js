@@ -43,8 +43,15 @@ const summaryIn = document.querySelector('.income');
 const summaryOut = document.querySelector('.out');
 const summaryInterest = document.querySelector('.yield');
 
-// functions
+let userId = document.querySelector('.login__id');
+let userPwd = document.querySelector('.login__pwd');
+const loginBtn = document.querySelector('.login__submit');
 
+const welcomeMsg = document.querySelector('.welcome');
+const containerApp = document.querySelector('.app');
+
+
+// functions
 // 돈의 흐름을 나타냄
 const displayMovements = (movements) => {
   movements.forEach((value,idx) => {
@@ -61,7 +68,6 @@ const displayMovements = (movements) => {
     containerMovements.insertAdjacentHTML('afterbegin',html);
   })
 }
-displayMovements(account1.movements);
 
 // username 생성
 const createUsernames = (accs) => {
@@ -77,12 +83,10 @@ createUsernames(accounts);
 console.log(accounts);
 
 // 현재 자산을 나타냄
-const calcBalanace = (movements) => {
+const calcBalanaceAndDisplay = (movements) => {
   const balance = movements.reduce((prev,cur) => prev+cur);
   totalBalance.innerHTML = `₩${balance}`;
 }
-
-calcBalanace(account1.movements);
 
 // 자산 요약을 나타냄
 const calcDisplaySummary = (movements) => {
@@ -103,4 +107,27 @@ const calcDisplaySummary = (movements) => {
   summaryInterest.textContent = `₩${Math.floor(Math.abs(interests))}`;
 }
 
-calcDisplaySummary(account1.movements);
+// 로그인 기능
+let currentAccount;
+
+loginBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  currentAccount = accounts.find(acc => acc.username === userId.value)
+  
+  if(currentAccount?.pin === Number(userPwd.value)) {
+    // 환영 메세지
+    welcomeMsg.textContent = `환영합니다! ${currentAccount.owner}`;
+    containerApp.style.opacity = 100;
+
+    // 정보 표시
+    displayMovements(currentAccount.movements);
+    calcDisplaySummary(currentAccount.movements);
+    calcBalanaceAndDisplay(currentAccount.movements);
+
+    // clear
+    userId = userPwd = '';
+    document.querySelector('.login__id').blur();
+    document.querySelector('.login__pwd').blur();
+  }
+})
+
