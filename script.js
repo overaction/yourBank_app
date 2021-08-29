@@ -58,6 +58,9 @@ const logoutUser = document.querySelector('.form__input--user');
 const logoutPin = document.querySelector('.form__input--pin');
 const logoutBtn = document.querySelector('.form__btn--logout');
 
+const loanAmount = document.querySelector('.form__input--loan-amount');
+const loanBtn = document.querySelector('.form__btn--loan');
+
 
 // functions
 // 돈의 흐름을 나타냄
@@ -160,6 +163,17 @@ transferBtn.addEventListener('click', (e) => {
   inputTransferAmount.value = inputTransferTo.value = '';
 })
 
+// 빌리기
+loanBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  const amount = Number(loanAmount.value);
+  if(amount > 0 && currentAccount?.movements.some(mov => mov >= amount*0.1)) {
+    currentAccount.movements.push(amount);
+
+    updateUI(currentAccount);
+  }
+  loanAmount.value = '';
+})
 
 // 로그아웃
 logoutBtn.addEventListener('click', (e) => {
