@@ -43,12 +43,16 @@ const summaryIn = document.querySelector('.income');
 const summaryOut = document.querySelector('.out');
 const summaryInterest = document.querySelector('.yield');
 
-let userId = document.querySelector('.login__id');
-let userPwd = document.querySelector('.login__pwd');
+const userId = document.querySelector('.login__id');
+const userPwd = document.querySelector('.login__pwd');
 const loginBtn = document.querySelector('.login__submit');
 
 const welcomeMsg = document.querySelector('.welcome');
 const containerApp = document.querySelector('.app');
+
+const inputTransferTo = document.querySelector('.form__input--to');
+const inputTransferAmount = document.querySelector('.form__input--amount');
+const transferBtn = document.querySelector('.form__btn--transfer');
 
 
 // functions
@@ -83,9 +87,16 @@ createUsernames(accounts);
 console.log(accounts);
 
 // 현재 자산을 나타냄
-const calcBalanaceAndDisplay = (movements) => {
-  const balance = movements.reduce((prev,cur) => prev+cur);
-  totalBalance.innerHTML = `₩${balance}`;
+const calcBalanaceAndDisplay = (account) => {
+  account.balance = account.movements.reduce((prev,cur) => prev+cur);
+  totalBalance.innerHTML = `₩${account.balance}`;
+}
+
+// UI 업데이트
+const updateUI = (acc) => {
+  displayMovements(acc.movements);
+  calcDisplaySummary(acc.movements);
+  calcBalanaceAndDisplay(acc);
 }
 
 // 자산 요약을 나타냄
@@ -113,21 +124,34 @@ let currentAccount;
 loginBtn.addEventListener('click', (e) => {
   e.preventDefault();
   currentAccount = accounts.find(acc => acc.username === userId.value)
-  
+  console.log(userId.value);
+  console.log(currentAccount)
   if(currentAccount?.pin === Number(userPwd.value)) {
     // 환영 메세지
     welcomeMsg.textContent = `환영합니다! ${currentAccount.owner}`;
     containerApp.style.opacity = 100;
 
     // 정보 표시
-    displayMovements(currentAccount.movements);
-    calcDisplaySummary(currentAccount.movements);
-    calcBalanaceAndDisplay(currentAccount.movements);
-
+    updateUI(currentAccount);
     // clear
-    userId = userPwd = '';
-    document.querySelector('.login__id').blur();
-    document.querySelector('.login__pwd').blur();
+    userId.value = userPwd.value = '';
+    userId.blur();
+    userPwd.blur();
   }
-})
+});
 
+// 송금하기
+transferBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  const amount = Number(inputTransferAmount.value)
+  const receiver = accounts.find(acc => acc.username === inputTransferTo.value);
+  if(receiver && amount > 0 && currentAccount.balance >= amount && receiver?.username !== currentAccount.username) {
+    // 전송하기
+    currentAccount.movements.push(-amount);
+    receiver.movements.push(amount);
+    // UI업데이트
+    updateUI(currentAccount);
+  }
+  //clear
+  inputTransferAmount.value = inputTransferTo.value = '';
+})
