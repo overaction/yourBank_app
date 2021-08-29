@@ -54,6 +54,10 @@ const inputTransferTo = document.querySelector('.form__input--to');
 const inputTransferAmount = document.querySelector('.form__input--amount');
 const transferBtn = document.querySelector('.form__btn--transfer');
 
+const logoutUser = document.querySelector('.form__input--user');
+const logoutPin = document.querySelector('.form__input--pin');
+const logoutBtn = document.querySelector('.form__btn--logout');
+
 
 // functions
 // 돈의 흐름을 나타냄
@@ -154,4 +158,17 @@ transferBtn.addEventListener('click', (e) => {
   }
   //clear
   inputTransferAmount.value = inputTransferTo.value = '';
+})
+
+
+// 로그아웃
+logoutBtn.addEventListener('click', (e) => {
+  e.preventDefault();
+  if(currentAccount.username === logoutUser.value && currentAccount.pin === Number(logoutPin.value)) {
+    const accIdx = accounts.findIndex(acc => acc.username === currentAccount.username);
+    
+    accounts.splice(accIdx,1);
+    containerApp.style.opacity = 0;
+  }
+  logoutPin.value = logoutUser.value = '';
 })
