@@ -268,14 +268,53 @@ h2 {
   color: #e52a5a;
 }
 
-.sortBtn {
+.sortMenu {
   position: absolute;
-  left: 46rem;
-  bottom: 0.3rem;
+  right: 40rem;
+}
+
+.sortMenu__list {
+  background-color: rgb(105, 198, 221);
+  width: 10rem;
+  height: 0rem;
+  text-align: center;
+  border-radius: 2rem;
+  visibility: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+.visibility {
+  visibility: visible;
+  height: 7.8rem;
+}
+
+.sortMenu .sort__btn {
   border: none;
-  font-size: 1.5rem;
+  background-color: transparent;
+  font-size: 1.6rem;
+  padding: 0.2rem;
+  cursor: pointer;
+  color: #f1f2ff;
+  font-weight: bold;
+  transition: 0.5s;
+}
+
+.sortBtn {
+  border: none;
+  font-size: 1.8rem;
   font-weight: bold;
   color: #39b385;
   background-color: #f3f3f3;
   cursor: pointer;
+  position: relative;
+  left: 1.3rem;
+}
+
+.sortMenu ul li {
+  list-style: none;
+  transform: 0.5s;
+}
+
+.sortMenu ul li:hover .sort__btn{
+  color: #ff5d94;
 }

@@ -61,11 +61,29 @@ const logoutBtn = document.querySelector('.form__btn--logout');
 const loanAmount = document.querySelector('.form__input--loan-amount');
 const loanBtn = document.querySelector('.form__btn--loan');
 
+const sortBtn = document.querySelector('.sortBtn');
+const sortList = document.querySelector('.sortMenu__list');
+const sortBasicBtn = document.querySelector('.sort__basic');
+const sortDepositBtn = document.querySelector('.sort__deposit');
+const sortWithdrawBtn = document.querySelector('.sort__withdraw');
+
 
 // functions
 // 돈의 흐름을 나타냄
-const displayMovements = (movements) => {
-  movements.forEach((value,idx) => {
+const displayMovements = (movements, sort=false) => {
+  let movs = movements;
+  if(sort == 1) {
+    movs = movements.slice().sort((a,b) => a-b);
+  }
+  else if(sort == 2) {
+    movs = movements.slice().filter(mov => mov > 0);
+  }
+  else if(sort == 3) {
+    movs = movements.slice().filter(mov => mov < 0);
+  }
+
+  containerMovements.textContent = ''
+  movs.forEach((value,idx) => {
     const type = value > 0 ? '입금' : '출금'
     const typeClass = value > 0 ? 'deposit':'withdraw'
     const html = `
@@ -75,7 +93,6 @@ const displayMovements = (movements) => {
       <div class="movement__type__value">₩${value}</div>
     </div>
     `;
-
     containerMovements.insertAdjacentHTML('afterbegin',html);
   })
 }
@@ -185,4 +202,26 @@ logoutBtn.addEventListener('click', (e) => {
     containerApp.style.opacity = 0;
   }
   logoutPin.value = logoutUser.value = '';
+})
+
+
+// 정렬 기능
+let sorted = false;
+sortBtn.addEventListener('click', (e) => {
+  sortList.classList.toggle('visibility');
+})
+
+// 기본정렬
+sortBasicBtn.addEventListener('click',(e) => {
+  displayMovements(currentAccount.movements,1);
+})
+
+// 입금내역
+sortDepositBtn.addEventListener('click',(e) => {
+  displayMovements(currentAccount.movements,2);
+});
+
+// 출금내역
+sortWithdrawBtn.addEventListener('click',(e) => {
+  displayMovements(currentAccount.movements,3);
 })
