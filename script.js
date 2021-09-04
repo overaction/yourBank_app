@@ -7,7 +7,16 @@
 // Data
 const account1 = {
   owner: 'k',
-  movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
+  movements: [
+    {value: 200, date: '2021-08-17T03:24:00'},
+    {value: 450, date: '2021-08-17T03:24:00'},
+    {value: -400, date: '2021-08-17T03:24:00'},
+    {value: 3000, date: '2021-08-17T03:24:00'},
+    {value: -650, date: '2021-08-17T03:24:00'},
+    {value: -130, date: '2021-08-17T03:24:00'},
+    {value: 70, date: '2021-08-17T03:24:00'},
+    {value: 1300, date: '2021-08-17T03:24:00'},
+  ],
   interestRate: 1.2, // %
   pin: 1111,
 };
@@ -21,7 +30,16 @@ const account2 = {
 
 const account3 = {
   owner: 'S',
-  movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  movements: [
+    {value: 200, date: '2021-08-17T03:24:00'},
+    {value: 450, date: '2021-08-17T03:24:00'},
+    {value: -400, date: '2021-08-17T03:24:00'},
+    {value: 3000, date: '2021-08-17T03:24:00'},
+    {value: -650, date: '2021-08-17T03:24:00'},
+    {value: -130, date: '2021-08-17T03:24:00'},
+    {value: 70, date: '2021-08-17T03:24:00'},
+    {value: 1300, date: '2021-08-17T03:24:00'},
+  ],
   interestRate: 0.7,
   pin: 3333,
 };
@@ -77,25 +95,34 @@ let currentAccount, timer;
 const displayMovements = (acc, sort=false) => {
   let movs = acc.movements;
   if(sort == 1) {
-    movs = movs.slice().sort((a,b) => a-b);
+    movs = movs.slice().sort((a,b) => a.value-b.value);
   }
   else if(sort == 2) {
-    movs = movs.slice().filter(mov => mov > 0);
+    movs = movs.slice().filter(mov => mov.value > 0);
   }
   else if(sort == 3) {
-    movs = movs.slice().filter(mov => mov < 0);
+    movs = movs.slice().filter(mov => mov.value < 0);
   }
 
   containerMovements.textContent = ''
-  
+
   movs.forEach((value,idx) => {
-    const type = value > 0 ? '입금' : '출금'
-    const typeClass = value > 0 ? 'deposit':'withdraw'
+    const type = value.value > 0 ? '입금' : '출금';
+    const typeClass = value.value > 0 ? 'deposit':'withdraw';
+
+    // 날짜
+    const now = new Date(value.date);
+    const day = now.getDate().toString().padStart(2,0);
+    const month = (now.getMonth()+1).toString().padStart(2,0);
+    const year = (now.getFullYear()).toString().padStart(2,0);
+    const hour = now.getHours().toString().padStart(2,0);
+    const min = now.getMinutes().toString().padStart(2,0);
+
     const html = `
     <div class="movement__row">
       <div class="movement__type__${typeClass}">${type} ${idx+1}</div>
-      <div class="movement__type__date">12/03/2020</div>
-      <div class="movement__type__value">₩${value}</div>
+      <div class="movement__type__date">${year}-${month}-${day} ${hour}:${min}</div>
+      <div class="movement__type__value">₩${value.value}</div>
     </div>
     `;
     containerMovements.insertAdjacentHTML('afterbegin',html);
@@ -117,7 +144,8 @@ console.log(accounts);
 
 // 현재 자산을 나타냄
 const calcBalanaceAndDisplay = (account) => {
-  account.balance = account.movements.reduce((prev,cur) => prev+cur);
+  const temp = account.movements.map(val => val.value);
+  account.balance = temp.reduce((prev,cur) => prev+cur);
   totalBalance.innerHTML = `₩${account.balance}`;
 }
 
@@ -152,18 +180,18 @@ const startLogoutTimer = () => {
 // 자산 요약을 나타냄
 const calcDisplaySummary = (movements) => {
   const incomes = movements
-  .filter(mov => mov > 0)
-  .reduce((acum,mov) => acum+mov,0);
+  .filter(mov => mov.value > 0)
+  .reduce((acum,mov) => acum+mov.value,0);
   summaryIn.textContent = `₩${incomes}`;
 
   const outcomes = movements
-  .filter(mov => mov < 0)
-  .reduce((acum,mov) => acum+mov,0);
+  .filter(mov => mov.value < 0)
+  .reduce((acum,mov) => acum+mov.value,0);
   summaryOut.textContent = `₩${Math.abs(outcomes)}`;
 
   const interests = movements
-  .filter(mov => mov > 0)
-  .map(deposit => deposit * 1.2 / 100)
+  .filter(mov => mov.value > 0)
+  .map(deposit => deposit.value * 1.2 / 100)
   .reduce((acum,mov) => acum+mov,0);
   summaryInterest.textContent = `₩${Math.floor(Math.abs(interests))}`;
 }
@@ -208,8 +236,9 @@ transferBtn.addEventListener('click', (e) => {
   const receiver = accounts.find(acc => acc.username === inputTransferTo.value);
   if(receiver && amount > 0 && currentAccount.balance >= amount && receiver?.username !== currentAccount.username) {
     // 전송하기
-    currentAccount.movements.push(-amount);
-    receiver.movements.push(amount);
+    const now = new Date();
+    currentAccount.movements.push({value:-amount, date: now});
+    receiver.movements.push({value: amount, date: now});
     // UI업데이트
     updateUI(currentAccount);
     // 타이머 재시작
@@ -224,8 +253,8 @@ transferBtn.addEventListener('click', (e) => {
 loanBtn.addEventListener('click', (e) => {
   e.preventDefault();
   const amount = Number(loanAmount.value);
-  if(amount > 0 && currentAccount?.movements.some(mov => mov >= amount*0.1)) {
-    currentAccount.movements.push(amount);
+  if(amount > 0 && currentAccount?.movements.some(mov => mov.value >= amount*0.1)) {
+    currentAccount.movements.push({value:amount, date: now});
 
     updateUI(currentAccount);
     // 타이머 재시작
@@ -268,3 +297,8 @@ sortDepositBtn.addEventListener('click',(e) => {
 sortWithdrawBtn.addEventListener('click',(e) => {
   displayMovements(currentAccount,3);
 });
+
+
+currentAccount = account1;
+containerApp.style.opacity = 100;
+updateUI(currentAccount);
