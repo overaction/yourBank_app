@@ -145,6 +145,21 @@ const calcDisplaySummary = (movements) => {
 // 로그인 기능
 let currentAccount;
 
+///////// 가짜 로그인
+currentAccount = account1;
+updateUI(currentAccount);
+containerApp.style.opacity = 100;
+
+// 날짜 표시
+const now = new Date();
+const day = now.getDate().toString().padStart(2,0);
+const month = (now.getMonth()+1).toString().padStart(2,0);
+const year = (now.getFullYear()).toString().padStart(2,0);
+const hour = now.getHours().toString().padStart(2,0);
+const min = now.getMinutes().toString().padStart(2,0);
+
+mainDate.textContent = `현재시각 ${year}/${month}/${day}, ${hour}:${min}`;
+
 loginBtn.addEventListener('click', (e) => {
   e.preventDefault();
   currentAccount = accounts.find(acc => acc.username === userId.value)
