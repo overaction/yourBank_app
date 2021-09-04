@@ -212,6 +212,9 @@ transferBtn.addEventListener('click', (e) => {
     receiver.movements.push(amount);
     // UI업데이트
     updateUI(currentAccount);
+    // 타이머 재시작
+    clearInterval(timer);
+    timer = startLogoutTimer();
   }
   //clear
   inputTransferAmount.value = inputTransferTo.value = '';
@@ -225,6 +228,9 @@ loanBtn.addEventListener('click', (e) => {
     currentAccount.movements.push(amount);
 
     updateUI(currentAccount);
+    // 타이머 재시작
+    clearInterval(timer);
+    timer = startLogoutTimer();
   }
   loanAmount.value = '';
 })
