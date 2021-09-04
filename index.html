@@ -82,30 +82,37 @@
       </div>
 
       <div class="summary">
-        <div class="summary__income">
-          <p class="come__label">받은 돈 </p>
-          <span class="income interest">₩20000</span>
-        </div>
-        <div class="summary__outcome">
-          <p class="come__label">보낸 돈 </p>
-          <span class="out">₩20000</span>
-        </div>
-        <div class="summary__income">
-          <p class="come__label">이자 </p>
-          <span class="yield interest">₩20000</span>
-        </div>
-
-        <div class="sortMenu">
-          <button class="sortBtn">정렬하기</button>
-          <div class="sortMenu__list">
-            <ul>
-              <li><button class="sort__basic sort__btn">기본정렬</button></li>
-              <li><button class="sort__deposit sort__btn">입금내역</button></li>
-              <li><button class="sort__withdraw sort__btn">출금내역</button></li>
-            </ul>
+        <div class="summary__left">
+          <div class="summary__receive summary__common">
+            <p class="come__label">받은 돈 </p>
+            <span class="income interest">₩20000</span>
+          </div>
+          <div class="summary__outcome summary__common">
+            <p class="come__label">보낸 돈 </p>
+            <span class="out">₩20000</span>
+          </div>
+          <div class="summary__income summary__common">
+            <p class="come__label">이자 </p>
+            <span class="yield interest">₩20000</span>
+          </div>
+          <div class="sortMenu">
+            <button class="sortBtn">정렬하기</button>
+            <div class="sortMenu__list">
+              <ul>
+                <li><button class="sort__basic sort__btn">기본정렬</button></li>
+                <li><button class="sort__deposit sort__btn">입금내역</button></li>
+                <li><button class="sort__withdraw sort__btn">출금내역</button></li>
+              </ul>
+            </div>
           </div>
         </div>
+
+        <div class="timer">
+          <p class="timer__now">5:00 </p> <h3 class="timer__text">후 로그아웃</h3>
+        </div>
       </div>
+
+      
     </main>
 
     <script src="script.js"></script>

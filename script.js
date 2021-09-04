@@ -67,22 +67,27 @@ const sortBasicBtn = document.querySelector('.sort__basic');
 const sortDepositBtn = document.querySelector('.sort__deposit');
 const sortWithdrawBtn = document.querySelector('.sort__withdraw');
 
+const mainDate = document.querySelector('.left__date');
+const logoutTimer = document.querySelector('.timer__now');
+
+let currentAccount, timer;
 
 // functions
 // 돈의 흐름을 나타냄
-const displayMovements = (movements, sort=false) => {
-  let movs = movements;
+const displayMovements = (acc, sort=false) => {
+  let movs = acc.movements;
   if(sort == 1) {
-    movs = movements.slice().sort((a,b) => a-b);
+    movs = movs.slice().sort((a,b) => a-b);
   }
   else if(sort == 2) {
-    movs = movements.slice().filter(mov => mov > 0);
+    movs = movs.slice().filter(mov => mov > 0);
   }
   else if(sort == 3) {
-    movs = movements.slice().filter(mov => mov < 0);
+    movs = movs.slice().filter(mov => mov < 0);
   }
 
   containerMovements.textContent = ''
+  
   movs.forEach((value,idx) => {
     const type = value > 0 ? '입금' : '출금'
     const typeClass = value > 0 ? 'deposit':'withdraw'
@@ -118,9 +123,30 @@ const calcBalanaceAndDisplay = (account) => {
 
 // UI 업데이트
 const updateUI = (acc) => {
-  displayMovements(acc.movements);
+  displayMovements(acc);
   calcDisplaySummary(acc.movements);
   calcBalanaceAndDisplay(acc);
+}
+
+// 로그아웃 타이머
+const startLogoutTimer = () => {
+  let time = 300;
+  const tick = () => {
+    const min = (Math.floor(time / 60)).toString().padStart(2,0);
+    const sec = (Math.floor(time % 60)).toString().padStart(2,0)
+    logoutTimer.textContent = `${min}:${sec}`;
+
+    if(time == 0) { 
+      clearInterval(timer);
+      containerApp.style.opacity = 0;
+      welcomeMsg.textContent = "로그인 후 이용해주세요"
+    }
+    time -= 1;
+  }
+  tick();
+  timer = setInterval(tick,1000);
+
+  return timer;
 }
 
 // 자산 요약을 나타냄
@@ -142,14 +168,6 @@ const calcDisplaySummary = (movements) => {
   summaryInterest.textContent = `₩${Math.floor(Math.abs(interests))}`;
 }
 
-// 로그인 기능
-let currentAccount;
-
-///////// 가짜 로그인
-currentAccount = account1;
-updateUI(currentAccount);
-containerApp.style.opacity = 100;
-
 // 날짜 표시
 const now = new Date();
 const day = now.getDate().toString().padStart(2,0);
@@ -160,6 +178,7 @@ const min = now.getMinutes().toString().padStart(2,0);
 
 mainDate.textContent = `현재시각 ${year}/${month}/${day}, ${hour}:${min}`;
 
+// 로그인 하기
 loginBtn.addEventListener('click', (e) => {
   e.preventDefault();
   currentAccount = accounts.find(acc => acc.username === userId.value)
@@ -172,6 +191,9 @@ loginBtn.addEventListener('click', (e) => {
 
     // 정보 표시
     updateUI(currentAccount);
+    // 타이머
+    if(timer) clearInterval(timer);
+    timer = startLogoutTimer();
     // clear
     userId.value = userPwd.value = '';
     userId.blur();
@@ -228,15 +250,15 @@ sortBtn.addEventListener('click', (e) => {
 
 // 기본정렬
 sortBasicBtn.addEventListener('click',(e) => {
-  displayMovements(currentAccount.movements,1);
-})
+  displayMovements(currentAccount,1);
+});
 
 // 입금내역
 sortDepositBtn.addEventListener('click',(e) => {
-  displayMovements(currentAccount.movements,2);
+  displayMovements(currentAccount,2);
 });
 
 // 출금내역
 sortWithdrawBtn.addEventListener('click',(e) => {
-  displayMovements(currentAccount.movements,3);
-})
+  displayMovements(currentAccount,3);
+});

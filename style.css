@@ -245,8 +245,20 @@ h2 {
 .summary {
   display: flex;
   justify-content: space-between;
-  width: 40rem;
   text-transform: uppercase;
+  margin-top: 2rem;
+}
+
+.summary__common {
+  margin-right: 2rem;
+}
+
+.summary__income {
+  margin-right: 4rem;
+}
+
+.summary__left {
+  display: flex;
 }
 
 .summary p {
@@ -269,8 +281,7 @@ h2 {
 }
 
 .sortMenu {
-  position: absolute;
-  right: 40rem;
+  
 }
 
 .sortMenu__list {
@@ -317,4 +328,9 @@ h2 {
 
 .sortMenu ul li:hover .sort__btn{
   color: #ff5d94;
+}
+
+.timer__text {
+  display: inline;
+  font-weight: 300;
 }
