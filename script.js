@@ -297,8 +297,3 @@ sortDepositBtn.addEventListener('click',(e) => {
 sortWithdrawBtn.addEventListener('click',(e) => {
   displayMovements(currentAccount,3);
 });
-
-
-currentAccount = account1;
-containerApp.style.opacity = 100;
-updateUI(currentAccount);
