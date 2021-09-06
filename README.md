@@ -12,7 +12,6 @@ Click [here](yourbank-simulator.netlify.app)
 |Description|
 |:--:|
 |<img src="https://user-images.githubusercontent.com/52850392/132186100-cc56ba4b-b0e2-4f2a-a42a-eb11d0d11b6d.png" width="800">
-1 - user 와 pin 번호를 입력해야합니다.
-* 현재 아이디 : k, 비밀번호 : 1111 / 아이디 : s , 비밀번호 : 3333
+1 - user 와 pin 번호를 입력해야합니다. <br/>* 현재 아이디 : k, 비밀번호 : 1111 / 아이디 : s , 비밀번호 : 3333
 2 - 송금 / 빌리기 / 로그아웃(계정삭제) 시뮬레이션을 할 수 있습니다.|
 
