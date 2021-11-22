@@ -6,7 +6,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5d25f7fb-9857-4c11-bfec-ace1d13b035c/deploy-status)](https://app.netlify.com/sites/rolling-dice-gaming/deploys)
 
 ## 사이트
-Click [here](yourbank-simulator.netlify.app)
+Click [here](https://yourbank-simulator.netlify.app/)
 
 ## 사용방법
 |Description|
